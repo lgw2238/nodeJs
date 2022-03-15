@@ -44,19 +44,12 @@ function connectDB() {
   });
 }
 
-// const maria = require("./config/mysql");
-// maria.connect();
-// app.use(expressSession({
-//   secret: 'my key',
-//   resave: true,
-//   saveUninitialized: true
-//   }));
 // 라우터 객체 참조
 var router = express.Router();
 
 // module
 var index = require('./routers/index');
-var users = require('./routers/users');
+var maria = require('./routers/maria');
 var about = require('./routers/about');
 var join = require('./routers/join');
 //var main = require('./routers/main');
@@ -84,11 +77,9 @@ console.log('aplication start');
 
 // page module
 app.use('/', index);
-//app.use('/router', router);
-app.use('/users', users);
+app.use('/maria', maria);
 app.use('/about', about);
 app.use('/join', join);
-//app.use('/main', main);
 
 //#Server 구동
 var server = http.createServer(app);
