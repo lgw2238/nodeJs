@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const bodyParser = require('body-parser');
-var logger = require('morgan');
 
 /* get home page. */
 router.get('/', function(req, res, next) {
@@ -16,6 +15,5 @@ router.post('/', function(req, res, next) {
   
 });
 
-router.use(logger());
 module.exports = router;
 

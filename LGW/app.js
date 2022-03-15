@@ -23,36 +23,17 @@ const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 
-// MONGODB CONNECTED
-const MongoClient = require('mongodb').MongoClient;
-// 데이터베이스 객체를 위한 변수 선언
-var database;
-// MONGODB CONNECTED STEP2
-function connectDB() {
-  // 데이터베이스 연결 정보
-  var databaseUrl = 'mongodb://localhost:27017/local';
-  
-  // 데이터베이스 연결
-  MongoClient.connect(databaseUrl, {useNewUrlParser : true}, function(err, client) {
-      if (err) throw err;
-      
-      console.log('데이터베이스에 연결되었습니다. : ' + databaseUrl);
-      
-      // database 변수에 할당
-      database = client.db('local');
-      console.log("database :" , database);
-  });
-}
-
 // 라우터 객체 참조
 var router = express.Router();
 
-// module
-var index = require('./routers/index');
+//DB module
 var maria = require('./routers/maria');
+var mongo = require('./routers/mongo');
+
+//Router module
+var index = require('./routers/index');
 var about = require('./routers/about');
 var join = require('./routers/join');
-//var main = require('./routers/main');
 
 var app = express();
 app.set('port', process.env.PORT || 3000);
@@ -62,7 +43,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('common'));
-//app.use(helmet());
 app.use(express.json());
 //body-parser를 사용해 application/x-www-form-urlencoded 파싱
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -72,14 +52,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/public', express.static(__dirname + '/public'));
 console.log('aplication start');
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 
 // page module
 app.use('/', index);
 app.use('/maria', maria);
 app.use('/about', about);
 app.use('/join', join);
+app.use('/mongo', mongo);
 
 //#Server 구동
 var server = http.createServer(app);
@@ -88,7 +67,6 @@ server.listen(app.get('port'), function(){
      console.log('★Server running★');
   console.log(`http://${hostname}:${port}/`);
   console.log('============================');
-  connectDB();
 });
 
 // catch 404 and forward to error handler

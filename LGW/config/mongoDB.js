@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 // 데이터베이스 객체를 위한 변수 선언
 var database;
 // MONGODB CONNECTED STEP2
-function connectDB() {
+async function connectDB() {
   // 데이터베이스 연결 정보
   var databaseUrl = 'mongodb://localhost:27017/local';
   
@@ -16,7 +16,8 @@ function connectDB() {
       
       // database 변수에 할당
       database = client.db('local');
+      console.log(database);
   });
 }
 
-module.exports = database;
+module.exports = { connectDB, };

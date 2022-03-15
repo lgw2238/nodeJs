@@ -14,6 +14,7 @@ async function getUserList() {
     conn = await pool.getConnection();
     conn.query('use nodejs'); // 사용할 DB 명시
     rows = await conn.query('SELECT * FROM user'); // 쿼리 실행
+    console.log("1:", rows);
   }
   catch (err) { throw err; }
   finally {
